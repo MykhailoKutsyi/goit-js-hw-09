@@ -25,9 +25,5 @@
     "posthtml-include": "^1.6.2",
     "sass": "^1.32.8"
   },
-  "dependencies": {
-    "@vimeo/player": "^2.16.3",
-    "lodash.throttle": "^4.1.1",
-    "simplelightbox": "^2.10.2"
-  }
+  "dependencies": {}
 }
