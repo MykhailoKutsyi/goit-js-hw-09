@@ -22,3 +22,24 @@ button {
   height: 30px;
   cursor: pointer;
 }
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 40px;
+}
+
+.field {
+  margin-right: 50px;
+}
+
+.field:last-child {
+  margin-right: 0;
+}
+
+.label {
+  display: block;
+  font-weight: 500;
+}
