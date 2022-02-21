@@ -1,91 +1,57 @@
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
-
-const refs = {
-  submitButton: document.querySelector('button'),
-  delay: document.querySelector('input[name="delay"]'.value),
-  step: document.querySelector('input[name="step"]'),
-  amount: document.querySelector('input[name="amount"]'),
-
-
-}
-console.log(refs.submitButton);
-
-refs.submitButton.addEventListener('submit', onFormSubmit);
-
-const firstDelay = 1000;
+document.querySelector('.form').addEventListener('submit', onFormSubmit);
 
 function onFormSubmit(evt) {
   evt.preventDefault();
-  console.log('d',refs.delay);
 
+  const refs = {
+    // form: document.querySelector('.form'),
+    firstDelay: Number(document.querySelector('input[name="delay"]').value),
+    delayStep: Number(document.querySelector('input[name="step"]').value),
+    amount: Number(document.querySelector('input[name="amount"]').value),
+  }
 
-  const amount = 6;
-// const delayStep = 2000;
-  // setTimeout(() => {
-  // setTimeout(() => {
+  let {
+    firstDelay,
+    delayStep,
+    amount,
+  } = refs;
 
-    for (let i = 1; i <= amount; i += 1) {
-      createPromise(refs, 500)
-        .then(result => console.log('Fulfill'))
-        .catch(error => console.log('Reject'));
-    }
-  // }, delayStep);
-  // }, 1000);
-  evt.Target.reset();
+  let delayCalc = firstDelay;
+  for (let i = 1; i <= amount; i += 1) {
+    createPromise(i, delayCalc)
+      .then(( { position, delay } ) => {
+        Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+        // console.log('Fulfill');
+      })
   
-  
-  
-  
+      .catch(( { position, delay } ) => {
+        (Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`));
+        // console.log('Reject');
+      });
+    delayCalc += delayStep;
+  }
+  evt.currentTarget.reset();
 }
-
 
 function createPromise(position, delay) {
   return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    // const intervalId = null;
-
       setTimeout(() => {
         if (shouldResolve) {
           // Fulfill
-          resolve(Notify.success(`✅ Fulfilled promise ${position} in ${firstDelay + delay}ms`));
+          resolve({ position, delay });
         } else {
           // Reject
-          reject(Notify.failure(`❌ Rejected promise ${position} in ${firstDelay + delay}ms`));
+          reject({ position, delay });
         }
       }, delay)
-    
   });
 }
 
-
-
-// return new Promise(function (resolve, reject) {
-//   var burger = cookBurger(type)
-//   burger.ready = function (err, burger) {
-//     if (err) {
-//       return reject(Error('Error while cooking'))
-//     }
-//     return resolve(burger)
-//   }
-// }
-
-// createPromise(2, 1500)
-//   .then(({ position, delay }) => {
-//     console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-//   })
-//   .catch(({ position, delay }) => {
-//     console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-//   });
-
-
-
-
-// function createPromise(position, delay) {
-//   const shouldResolve = Math.random() > 0.3;
-//   if (shouldResolve) {
-//     // Fulfill
-//   } else {
-//     // Reject
-//   }
-// }
+// 2000 3000 4 
+// 1 - 2000
+// 2 - 5000
+// 3 - 8000
+// 4 - 11000
